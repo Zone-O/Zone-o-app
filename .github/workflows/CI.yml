@@ -1,0 +1,87 @@
+name: Continous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '* 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  linter:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
+        # Add other dependencies here if needed
+
+      - name: Run linter
+        run: |
+          echo "Running linter"
+        # Run specific linter here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+  documentation:
+    needs: linter
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Check documentation
+        run: |
+          echo "Checking documentation"
+        # Run specific documentation checker here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+  build:
+    needs: linter
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Build
+        run: |
+          echo "Building"
+        # Run specific build command here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+  tests:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Run tests
+        run: |
+          echo "Running tests"
+        # Run specific tests here
+        # Prefer using scripts, place them in the scripts folder and call them here

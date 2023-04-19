@@ -1,0 +1,55 @@
+name: Continous Deployment
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 1'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Build
+        run: |
+          echo "Building"
+        # Add your build commands here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Deploy
+        run: |
+          echo "Deploying"
+        # Add your deploy commands here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+  documentation:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Build documentation
+        run: |
+          echo "Building documentation"
+        # Add your build commands here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Deploy documentation
+        run: |
+          echo "Deploying documentation"
+        # Add your deploy commands here
+        # Prefer using scripts, place them in the scripts folder and call them here

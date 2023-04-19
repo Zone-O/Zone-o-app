@@ -1,0 +1,32 @@
+name: Improvement
+description: Create an issue for an improvement to an existing feature.
+title: "[IMPROVEMENT]: "
+labels: ["improvement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this improvement request!
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Feature Description
+      description: Describe the actual comportment of the feature.
+      placeholder: "Describe the actual comportment of the feature."
+    validations:
+      required: true
+  - type: textarea
+    id: improvement-description
+    attributes:
+      label: Improvement Description
+      description: Describe the new comportment of the feature.
+      placeholder: "Describe the new comportment of the feature."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add any other context or screenshots about the improvement request here.
+      placeholder: "Add any other context or screenshots about the improvement request here."
+    validations:
+      required: false
