@@ -28,6 +28,7 @@ jobs:
       - name: Run linter
         run: |
           echo "Running linter"
+          flutter pub get
           dart analyze .
         # Run specific linter here
         # Prefer using scripts, place them in the scripts folder and call them here
