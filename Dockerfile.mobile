@@ -1,7 +1,12 @@
-FROM cirrusci/flutter
+FROM ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+# cirrusci/flutter
 
-COPY app_code /app
-WORKDIR /app
+COPY android/ /app/android/
+COPY lib/ /app/lib/
+COPY test/ /app/test/
+COPY pubspec.yaml zone_o_app.iml /app/
+
+WORKDIR /app/
 
 USER root
 

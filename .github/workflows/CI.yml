@@ -66,6 +66,7 @@ jobs:
           echo "Building"
         # Run specific build command here
         # Prefer using scripts, place them in the scripts folder and call them here
+          ${github.workspace}/.github//workflows/scripts/build.sh
 
   tests:
     needs: build
