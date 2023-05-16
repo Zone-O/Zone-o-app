@@ -20,9 +20,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # - name: Install dependencies
-      #   run: |
-      #     sudo apt-get update -y && sudo apt-get upgrade -y
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -y && sudo apt-get upgrade -y
         # Add other dependencies here if needed
 
       - name: Run linter
