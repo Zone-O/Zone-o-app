@@ -1,0 +1,11 @@
+FROM cirrusci/flutter
+
+COPY app_code /app
+WORKDIR /app
+
+USER root
+
+RUN rm -f .packages
+
+RUN flutter pub get
+RUN flutter build apk --release
