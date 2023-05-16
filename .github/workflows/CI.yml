@@ -83,5 +83,6 @@ jobs:
       - name: Run tests
         run: |
           echo "Running tests"
+          ${{ github.workspace }}/.github/workflows/scripts/tests.sh
         # Run specific tests here
         # Prefer using scripts, place them in the scripts folder and call them here
