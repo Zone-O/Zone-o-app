@@ -20,6 +20,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies"
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
       - name: Run linter
         run: |
           echo "Running linter"
@@ -78,7 +84,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y
+          echo "Installing dependencies"
         # Add other dependencies here if needed
         # Prefer using scripts, place them in the scripts folder and call them here
 
