@@ -9,5 +9,8 @@ function statusMessage() {
     fi
 }
 
-flutter test --coverage --coverage-path=coverage/lcov.info
-statusMessage $? "Flutter tests passed" "Flutter tests failed"
+docker build -t zone-o-app-test:latest . -f Dockerfile.test --no-cache
+statusMessage $? "Flutter app tests passed" "Flutter app tests failed"
+
+docker run --rm zone-o-app-test:latest
+statusMessage $? "Flutter app tests passed" "Flutter app tests failed"
