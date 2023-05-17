@@ -69,7 +69,7 @@ jobs:
       - name: Build
         run: |
           echo "Building"
-          ${{ github.workspace }}/.github/workflows/scripts/build.sh
+          ${{ github.workspace }}/.github/workflows/scripts/build.sh mobile web
         # Run specific build command here
         # Prefer using scripts, place them in the scripts folder and call them here
 
