@@ -1,0 +1,64 @@
+version: "2.4"
+services:
+  database:
+    build: ./server/database
+    environment:
+      MYSQL_ROOT_PASSWORD: ${password}
+      MYSQL_DATABASE: ${database}
+    volumes:
+      - .:/code
+    ports:
+      - "3306:3306"
+    networks:
+      - database_net
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u ${user} --password=${password}
+      interval: 5s
+      timeout: 45s
+      retries: 40
+
+  server:
+    build: ./server
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      - IS_MIGRATION=true #SET TO true when a migration needed
+      - DATABASE_URL=mysql://${user}:${password}@database:3306/${database}
+    volumes:
+      - .:/code
+    stdin_open: true
+    tty: true
+    networks:
+      - database_net
+
+  client_mobile:
+    build:
+      context: ./application
+      dockerfile: mobile.Dockerfile
+    volumes:
+      - common:/apk
+
+  client_web:
+    build:
+      context: ./application
+      dockerfile: web.Dockerfile
+    depends_on:
+      server:
+        condition: service_started
+      client_mobile:
+        condition: service_started
+    ports:
+      - "8081:5000"
+    volumes:
+      - common:/apk
+
+volumes:
+  common:
+
+networks:
+  database_net:
