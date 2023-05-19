@@ -12,6 +12,37 @@ on:
   workflow_dispatch:
 
 jobs:
+  tests:
+    #needs: build
+    runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies"
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Run tests
+        run: |
+          echo "Running tests"
+          ${{ github.workspace }}/.github/workflows/scripts/tests.sh
+        # Run specific tests here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Upload tests to ghpages
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: ./coverage
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_DIR: docs/coverage
+
   linter:
     runs-on: ubuntu-22.04
     container:
@@ -72,34 +103,3 @@ jobs:
           ${{ github.workspace }}/.github/workflows/scripts/build.sh mobile web
         # Run specific build command here
         # Prefer using scripts, place them in the scripts folder and call them here
-
-  tests:
-    needs: build
-    runs-on: ubuntu-22.04
-    container:
-      image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          echo "Installing dependencies"
-        # Add other dependencies here if needed
-        # Prefer using scripts, place them in the scripts folder and call them here
-
-      - name: Run tests
-        run: |
-          echo "Running tests"
-          ${{ github.workspace }}/.github/workflows/scripts/tests.sh
-        # Run specific tests here
-        # Prefer using scripts, place them in the scripts folder and call them here
-
-      - name: Upload tests to ghpages
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: gh-pages
-          FOLDER: ./coverage
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_DIR: docs/coverage
