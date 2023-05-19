@@ -17,6 +17,8 @@ jobs:
     runs-on: ubuntu-22.04
     container:
       image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,14 +36,12 @@ jobs:
         # Run specific tests here
         # Prefer using scripts, place them in the scripts folder and call them here
 
-      - name: Upload tests to ghpages
-        uses: s0/git-publish-subdir-action@develop
-        env:
-          REPO: self
-          BRANCH: gh-pages
-          FOLDER: ./coverage
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TARGET_DIR: docs/coverage
+      - name: Upload ECS documentation
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./docs/coverage
+          target-folder: docs/coverage
+          branch: gh-pages
 
   linter:
     runs-on: ubuntu-22.04
