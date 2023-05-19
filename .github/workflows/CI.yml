@@ -39,7 +39,7 @@ jobs:
       - name: Upload ECS documentation
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: ./docs/coverage
+          folder: ./coverage
           target-folder: docs/coverage
           branch: gh-pages
 
