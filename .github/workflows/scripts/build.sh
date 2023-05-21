@@ -13,6 +13,7 @@ function statusMessage() {
 if [[ "$@" =~ "mobile" ]]; then
     echo "Building Flutter app"
     docker build -t zone-o-app:latest . -f Dockerfile.mobile --no-cache
+    docker run zone-o-app:latest
     statusMessage $? "Flutter app built successfully" "Flutter app build failed"
 fi
 
@@ -20,5 +21,6 @@ fi
 if [[ "$@" =~ "web" ]]; then
     echo "Building Flutter web"
     docker build -t zone-o-web:latest . -f Dockerfile.web --no-cache
+    docker run zone-o-web:latest
     statusMessage $? "Flutter web built successfully" "Flutter web build failed"
 fi
