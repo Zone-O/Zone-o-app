@@ -1,0 +1,16 @@
+FROM ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+# cirrusci/flutter
+
+COPY android/ /app/android/
+COPY lib/ /app/lib/
+COPY test/ /app/test/
+COPY pubspec.yaml zone_o_app.iml /app/
+
+WORKDIR /app/
+
+USER root
+
+RUN rm -f .packages
+
+RUN flutter pub get
+RUN flutter build apk --release

@@ -1,0 +1,23 @@
+# Install Operating system and dependencies
+FROM ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install python3 python3.11 -y
+
+# Run flutter doctor
+RUN flutter doctor
+
+# Enable flutter web
+RUN flutter config --enable-web
+
+# Copy files to container and build
+RUN mkdir /app/
+COPY . /app/
+WORKDIR /app/
+RUN flutter build web
+
+# Record the exposed port
+EXPOSE 3000
+
+# Run the web server
+CMD python3 -m http.server 3000 --directory build/web
