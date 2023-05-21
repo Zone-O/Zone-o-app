@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           echo "Installing dependencies"
-          apt-get install -y rsync
+          apt-get update && apt-get install -y rsync
         # Add other dependencies here if needed
         # Prefer using scripts, place them in the scripts folder and call them here
 
