@@ -56,8 +56,9 @@ jobs:
   build:
     needs: linter
     runs-on: ubuntu-22.04
-    matrix:
-      include:
+    strategy:
+      matrix:
+        include:
         - name: Build mobile
           env:
             PLATFORM: mobile
