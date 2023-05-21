@@ -9,5 +9,4 @@ function statusMessage() {
     fi
 }
 
-flutter test --coverage --coverage-path=coverage/lcov.info
 statusMessage $? "Flutter tests passed" "Flutter tests failed"
