@@ -11,12 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       return MaterialApp.router(
-        title: 'Zoné\'O',
+        title: 'ZonéO',
         theme: ThemeData(
             fontFamily: 'Roboto-Bold'),
-        routeInformationProvider: router.routeInformationProvider,
-        routeInformationParser: router.routeInformationParser,
-        routerDelegate: router.routerDelegate,
       );
   }
 }

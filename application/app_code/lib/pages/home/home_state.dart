@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-class HomeState extends StatefulWidget {
-  @override
-  _HomeStateState createState() => _HomeStateState();
-}
-
 class _HomeStateState extends State<HomeState> {
   int _counter = 0;
 
