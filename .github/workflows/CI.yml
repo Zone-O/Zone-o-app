@@ -15,44 +15,6 @@ permissions:
   contents: write
 
 jobs:
-  tests:
-    #needs: build
-    runs-on: ubuntu-22.04
-    container:
-      image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          echo "Installing dependencies"
-          apt-get update && apt-get install -y rsync
-        # Add other dependencies here if needed
-        # Prefer using scripts, place them in the scripts folder and call them here
-
-      - name: Run tests
-        run: |
-          echo "Running tests"
-          flutter pub get
-          flutter test --coverage --coverage-path=coverage/lcov.info
-          genhtml coverage/lcov.info -o coverage
-        # Run specific tests here
-        # Prefer using scripts, place them in the scripts folder and call them here
-
-      - name: Create ECS documentation artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: ./coverage
-
-      - name: Upload ECS documentation
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./coverage
-          target-folder: docs/coverage
-          branch: gh-pages
-
   linter:
     runs-on: ubuntu-22.04
     container:
@@ -97,6 +59,14 @@ jobs:
   build:
     needs: linter
     runs-on: ubuntu-22.04
+    matrix:
+      include:
+        - name: Build mobile
+          env:
+            PLATFORM: mobile
+        - name: Build web
+          env:
+            PLATFORM: web
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -110,6 +80,44 @@ jobs:
       - name: Build
         run: |
           echo "Building"
-          ${{ github.workspace }}/.github/workflows/scripts/build.sh mobile web
+          ${{ github.workspace }}/.github/workflows/scripts/build.sh $PLATFORM
         # Run specific build command here
         # Prefer using scripts, place them in the scripts folder and call them here
+
+  tests:
+    needs: build
+    runs-on: ubuntu-22.04
+    container:
+      image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          echo "Installing dependencies"
+          apt-get update && apt-get install -y rsync
+        # Add other dependencies here if needed
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Run tests
+        run: |
+          echo "Running tests"
+          flutter pub get
+          flutter test --coverage --coverage-path=coverage/lcov.info
+          genhtml coverage/lcov.info -o coverage
+        # Run specific tests here
+        # Prefer using scripts, place them in the scripts folder and call them here
+
+      - name: Create coverage artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: ./coverage
+
+      - name: Upload coverage to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ./coverage
+          target-folder: docs/coverage
+          branch: gh-pages
