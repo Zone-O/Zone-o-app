@@ -32,15 +32,17 @@ jobs:
       - name: Run tests
         run: |
           echo "Running tests"
+          flutter pub get
           flutter test --coverage --coverage-path=coverage/lcov.info
         # Run specific tests here
         # Prefer using scripts, place them in the scripts folder and call them here
 
       - name: Create ECS documentation artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage
           path: ./coverage
+
       - name: Upload ECS documentation
         uses: JamesIves/github-pages-deploy-action@v4
         with:
