@@ -11,14 +11,15 @@ on:
     - cron: '* 8 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   tests:
     #needs: build
     runs-on: ubuntu-22.04
     container:
       image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
-    permissions:
-      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
