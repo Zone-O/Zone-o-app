@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  mobile:
+    build:
+      context: .
+      dockerfile: Dockerfile.mobile
+    volumes:
+      - mobile:/app
+  
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    volumes:
+      - web:/app
+    ports:
+      - "8080:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mobile:
+  web:
