@@ -27,6 +27,15 @@ jobs:
       - name: Deploy
         run: |
           echo "Deploying"
+          ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}
+          rm -rf ${{ secrets.GIT_REPO_NAME }}
+          git clone ${{ secrets.GIT_REPO }} ${{ secrets.GIT_REPO_NAME }}
+          cd ${{ secrets.GIT_REPO_NAME }}
+          git checkout ${{ secrets.GIT_BRANCH }}
+          git pull
+          flutter pub get
+          flutter build web --release
+          python3 -m http.server 8080 &
         # Add your deploy commands here
         # Prefer using scripts, place them in the scripts folder and call them here
 
