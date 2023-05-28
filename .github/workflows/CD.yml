@@ -28,6 +28,7 @@ jobs:
         run: |
           echo "Deploying"
           ssh -i ${{ secrets.SSH_KEY }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}
+          killall python3
           rm -rf ${{ secrets.GIT_REPO_NAME }}
           git clone ${{ secrets.GIT_REPO }} ${{ secrets.GIT_REPO_NAME }}
           cd ${{ secrets.GIT_REPO_NAME }}
