@@ -9,26 +9,11 @@ jobs:
   deploy:
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        run: |
-          sudo apt-get update -y && sudo apt-get upgrade -y
-        # Add other dependencies here if needed
-        # Prefer using scripts, place them in the scripts folder and call them here
-
-      - name: Build
-        run: |
-          echo "Building"
-        # Add your build commands here
-        # Prefer using scripts, place them in the scripts folder and call them here
-
       - name: Deploy
         run: |
           echo "Deploying"
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-          ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}
+          echo "${{ secrets.SSH_KEY }}" > ~/id_rsa.pub
+          ssh -i ~/id_rsa.pub ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.SSH_PORT }}
           killall python3
           rm -rf ${{ secrets.GIT_REPO_NAME }}
           git clone ${{ secrets.GIT_REPO }} ${{ secrets.GIT_REPO_NAME }}
