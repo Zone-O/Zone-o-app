@@ -14,3 +14,94 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                 String         @id @unique @default(cuid())
+  username           String
+  email              String         @unique
+  password           String
+  createdAt          DateTime       @default(now())
+  lastLogon          DateTime       @default(now())
+  school             String         @default("Epitech")
+  favories           Accomodation[]
+  parameters         parameters[]
+  lastQQVE           QQVE_USER?
+  uploadedFiles      AccomodationFiles @relation(fields: [filesID], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  filesID            String
+}
+
+model Accomodation {
+  id             String     @id @unique @default(cuid())
+  name           String     @unique
+  description    String?
+  surface        Float
+  createdAt      DateTime   @default(now())
+  localisation   String
+  price          Float
+  energyValue    String     @default("E")
+  URL            String
+  ZoneOExclusive Boolean
+  User           User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId         String     @unique
+  lastQQVE       QQVE?
+  linkedFiles    AccomodationFiles?
+}
+
+model QQVE_USER  {
+  id                String             @id @unique
+  linkedUser        User               @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId            String             @unique
+  Value             Int
+  createdAt         DateTime           @default(now())
+}
+
+model QQVE  {
+  id                String            @id @unique
+  linkedPlace       Accomodation      @relation(fields: [accomodationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  accomodationId    String            @unique
+  value             Int
+  createdAt         DateTime           @default(now())
+}
+
+model AccomodationFiles {
+  id              String             @id @unique @default(cuid())
+  Users           User[]
+  createdAt       DateTime           @default(now())
+  files           String
+  Accomodation    Accomodation       @relation(fields: [accomodationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  accomodationId  String             @unique
+  deadline        DateTime
+  zoneoHelper     ZoneoZ             @relation(fields: [helperId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  helperId        String
+}
+
+model ZoneoZ {
+  id                      String              @id @unique @default(cuid())
+  name                    String
+  speciality              String?
+  linkedAccomodationFiles AccomodationFiles[]
+  email                   String
+}
+
+model parameters {
+  id          String      @id @unique @default(cuid())
+  isEnable    Boolean
+  feature     String
+  User        User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      String
+}
+
+model AreaOfInterest {
+  id          String      @id @unique @default(cuid())
+  essential   Boolean
+  name        String
+  description String?
+  localisation   String
+}
+
+model publicTransports {
+  id          String      @id @unique @default(cuid())
+  createdAt   DateTime
+  name        String
+  nextRefresh DateTime
+}
