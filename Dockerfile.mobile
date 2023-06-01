@@ -4,7 +4,7 @@ FROM ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
 COPY android/ /app/android/
 COPY lib/ /app/lib/
 COPY test/ /app/test/
-COPY pubspec.yaml zone_o_app.iml /app/
+COPY pubspec.yaml android/ /app/
 
 WORKDIR /app/
 
