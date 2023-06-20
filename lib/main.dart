@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void parseApartsResults(var res) async {
     double lat = 0;
     double lon = 0;
-    var key;
+    var key = "";
     apartsMarkerMap.clear();
     for (var apart in res) {
       lat = double.parse(apart['lat']);
