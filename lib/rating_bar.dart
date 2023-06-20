@@ -36,29 +36,33 @@ class _CustomRatingBarState extends State<CustomRatingBar> {
         padding: EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
           children: [
-            Text('${widget.title}',
-              style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.black,
-                  decoration: TextDecoration.underline
+            Expanded(
+              child: Text('${widget.title}',
+                style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                    decoration: TextDecoration.underline
+                ),
               ),
             ),
-            RatingBar.builder(
-              initialRating: widget.defaultRating,
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-              itemSize: 20.0,
-              itemBuilder: (context, _) => Icon(
-                Icons.favorite,
-                color: Colors.blue,
+            Expanded(
+              child: RatingBar.builder(
+                initialRating: widget.defaultRating,
+                minRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemSize: 20.0,
+                itemBuilder: (context, _) => Icon(
+                  Icons.favorite,
+                  color: Colors.blue,
+                ),
+                onRatingUpdate: (rating) {
+                  widget.callback(widget.title, rating);
+                },
               ),
-              onRatingUpdate: (rating) {
-                widget.callback(widget.title, rating);
-              },
-            )
+            ),
           ],
         ),
       ),
