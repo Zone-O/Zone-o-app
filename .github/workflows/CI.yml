@@ -3,13 +3,13 @@ name: Continous Integration
 on:
   push:
     branches:
-      - main
+      # - main
       - implement_osm_map
-  pull_request:
-    branches:
-      - main
-  schedule:
-    - cron: '0 8 * * *'
+  # pull_request:
+  #   branches:
+  #     - main
+  # schedule:
+  #   - cron: '0 8 * * *'
   workflow_dispatch:
 
 jobs:
