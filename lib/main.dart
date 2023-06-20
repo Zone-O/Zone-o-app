@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:zone_o_app/rating_bar.dart';
 
 void main() {
@@ -53,14 +52,14 @@ class MyHomePage extends StatefulWidget {
 }
 
 class ApartAttributes {
-  String price;
-  String date;
-  String location;
-  double finalMark;
-  double lat;
-  double lon;
+  final String price;
+  final String date;
+  final String location;
+  final double finalMark;
+  final double lat;
+  final double lon;
 
-  ApartAttributes({required this.price, required this.date, required this.location, required this.finalMark, required this.lat, required this.lon});
+  const ApartAttributes({required this.price, required this.date, required this.location, required this.finalMark, required this.lat, required this.lon});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -80,7 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   callback(key, newRating) {
     qqveRequirements[key] = newRating;
-    print(qqveRequirements);
   }
 
   @override
@@ -92,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void parseApartsResults(var res) async {
     double lat = 0;
     double lon = 0;
-    var key = null;
+    var key;
     apartsMarkerMap.clear();
     for (var apart in res) {
       lat = double.parse(apart['lat']);
@@ -124,7 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void getCityGeoPoint(var city) async {
-    print(qqveRequirements);
     var url = 'https://nominatim.openstreetmap.org/search?format=json&q=' + city + ', France';
     final uri = Uri.parse(url);
     final response = await http.get(uri);
@@ -167,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             ),
           ),
-          Container(
+          SizedBox(
             height: 780,
             child: OSMFlutter(
               controller: _mapController,
