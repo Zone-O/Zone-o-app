@@ -149,128 +149,135 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          TextField(
-            controller: _cityTextController,
-            decoration: InputDecoration(
-              hintText: 'Saisir une ville...',
-              border: const OutlineInputBorder(),
-              suffixIcon: IconButton(
-                onPressed: () {
-                  if (_cityTextController.text != "") {
-                    getCityGeoPoint(_cityTextController.text);
-                  }
-                },
-                icon: const Icon(Icons.search_outlined)
-              )
-            ),
-          ),
-          SizedBox(
-            height: 780,
-            child: OSMFlutter(
-              controller: _mapController,
-              userTrackingOption: UserTrackingOption(
-                enableTracking: true,
-                unFollowUser: false,
-              ),
-              initZoom: 12,
-              minZoomLevel: 4,
-              maxZoomLevel: 16,
-              stepZoom: 1.0,
-              userLocationMarker: UserLocationMaker(
-                personMarker: const MarkerIcon(
-                  icon: Icon(Icons.location_history_rounded, color: Colors.red, size: 48)
-                ),
-                directionArrowMarker: const MarkerIcon(
-                    icon: Icon(Icons.double_arrow, size: 48)
-                ),
-              ),
-              roadConfiguration: RoadOption(
-                roadColor: Colors.yellowAccent,
-              ),
-              markerOption: MarkerOption(
-                defaultMarker: MarkerIcon(
-                  icon: Icon(
-                    Icons.person_pin_circle,
-                    color: Colors.blue,
-                    size: 56,
-                  ),
+          Expanded(
+            child: TextField(
+              controller: _cityTextController,
+              decoration: InputDecoration(
+                hintText: 'Saisir une ville...',
+                border: const OutlineInputBorder(),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    if (_cityTextController.text != "") {
+                      getCityGeoPoint(_cityTextController.text);
+                    }
+                  },
+                  icon: const Icon(Icons.search_outlined)
                 )
               ),
-              onMapIsReady: (isReady) async {
-                if (isReady) {
-                  await Future.delayed(const Duration(seconds: 1), () async {
-                    await _mapController.currentLocation();
-                  });
-                }
-              },
-              onGeoPointClicked: (geoPoint) {
-                var key = '${geoPoint.latitude}_${geoPoint.longitude}';
-                var finalMarkInt = apartsMarkerMap[key]?.finalMark.toStringAsFixed(1);
-                showModalBottomSheet(context: context, builder: (context) {
-                  return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Expanded(child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text('${apartsMarkerMap[key]?.location}',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.blue
-                              ),),
-                              Text('Price: ${apartsMarkerMap[key]?.price}',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.blue
-                              ),),
-                              Text('${apartsMarkerMap[key]?.date}',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.blue
-                              ),),
-                              Text('★ ${finalMarkInt}',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                color: Colors.blue
-                              ),)
-                            ],
-                          ),),
-                          GestureDetector(
-                            onTap: () => Navigator.pop(context),
-                            child: const Icon(Icons.clear),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                });
-              }
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomRatingBar(title: 'Premières Nécessités', defaultRating: 5, callback: callback),
-              CustomRatingBar(title: 'Lieux de Travails', defaultRating: 5, callback: callback),
-              CustomRatingBar(title: 'Bars - Restauration', defaultRating: 5, callback: callback),
-              CustomRatingBar(title: 'Lieux Culturels', defaultRating: 5, callback: callback),
-              CustomRatingBar(title: 'Transports', defaultRating: 5, callback: callback),
-              /*CustomRatingBar(title: 'Sports', defaultRating: 1, callback: callback),
-              CustomRatingBar(title: 'Espaces Naturels', defaultRating: 1, callback: callback),*/
-              CustomRatingBar(title: 'Magasins de Fournitures', defaultRating: 1, callback: callback),
-              /*CustomRatingBar(title: 'Soins Médicaux', defaultRating: 1, callback: callback),
-              CustomRatingBar(title: 'Parkings', defaultRating: 1, callback: callback),
-              CustomRatingBar(title: 'Lieux de Cultes', defaultRating: 1, callback: callback),*/
-            ],
+          Expanded(
+            flex: 16,
+            child: SizedBox(
+              height: 780,
+              child: OSMFlutter(
+                controller: _mapController,
+                userTrackingOption: UserTrackingOption(
+                  enableTracking: true,
+                  unFollowUser: false,
+                ),
+                initZoom: 12,
+                minZoomLevel: 4,
+                maxZoomLevel: 16,
+                stepZoom: 1.0,
+                userLocationMarker: UserLocationMaker(
+                  personMarker: const MarkerIcon(
+                    icon: Icon(Icons.location_history_rounded, color: Colors.red, size: 48)
+                  ),
+                  directionArrowMarker: const MarkerIcon(
+                      icon: Icon(Icons.double_arrow, size: 48)
+                  ),
+                ),
+                roadConfiguration: RoadOption(
+                  roadColor: Colors.yellowAccent,
+                ),
+                markerOption: MarkerOption(
+                  defaultMarker: MarkerIcon(
+                    icon: Icon(
+                      Icons.person_pin_circle,
+                      color: Colors.blue,
+                      size: 56,
+                    ),
+                  )
+                ),
+                onMapIsReady: (isReady) async {
+                  if (isReady) {
+                    await Future.delayed(const Duration(seconds: 1), () async {
+                      await _mapController.currentLocation();
+                    });
+                  }
+                },
+                onGeoPointClicked: (geoPoint) {
+                  var key = '${geoPoint.latitude}_${geoPoint.longitude}';
+                  var finalMarkInt = apartsMarkerMap[key]?.finalMark.toStringAsFixed(1);
+                  showModalBottomSheet(context: context, builder: (context) {
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('${apartsMarkerMap[key]?.location}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blue
+                                ),),
+                                Text('Price: ${apartsMarkerMap[key]?.price}',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.blue
+                                ),),
+                                Text('${apartsMarkerMap[key]?.date}',
+                                style: const TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.blue
+                                ),),
+                                Text('★ ${finalMarkInt}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.blue
+                                ),)
+                              ],
+                            ),),
+                            GestureDetector(
+                              onTap: () => Navigator.pop(context),
+                              child: const Icon(Icons.clear),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  });
+                }
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CustomRatingBar(title: 'Premières Nécessités', defaultRating: 5, callback: callback),
+                CustomRatingBar(title: 'Lieux de Travails', defaultRating: 5, callback: callback),
+                CustomRatingBar(title: 'Bars - Restauration', defaultRating: 5, callback: callback),
+                CustomRatingBar(title: 'Lieux Culturels', defaultRating: 5, callback: callback),
+                CustomRatingBar(title: 'Transports', defaultRating: 5, callback: callback),
+                /*CustomRatingBar(title: 'Sports', defaultRating: 1, callback: callback),
+                CustomRatingBar(title: 'Espaces Naturels', defaultRating: 1, callback: callback),*/
+                CustomRatingBar(title: 'Magasins de Fournitures', defaultRating: 1, callback: callback),
+                /*CustomRatingBar(title: 'Soins Médicaux', defaultRating: 1, callback: callback),
+                CustomRatingBar(title: 'Parkings', defaultRating: 1, callback: callback),
+                CustomRatingBar(title: 'Lieux de Cultes', defaultRating: 1, callback: callback),*/
+              ],
+            ),
           ),
         ],
       ),
