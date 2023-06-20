@@ -1,4 +1,4 @@
-FROM ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+FROM ghcr.io/cirruslabs/flutter:3.10.5
 # cirrusci/flutter
 
 COPY android/ /app/android/

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - implement_osm_map
   pull_request:
     branches:
       - main
@@ -15,7 +16,7 @@ jobs:
   linter:
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+      image: ghcr.io/cirruslabs/flutter:3.10.5
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -86,7 +87,7 @@ jobs:
     needs: build
     runs-on: ubuntu-22.04
     container:
-      image: ghcr.io/cirruslabs/flutter:3.10.0-1.1.pre
+      image: ghcr.io/cirruslabs/flutter:3.10.5
     permissions:
       contents: write
     steps:
@@ -109,15 +110,15 @@ jobs:
         # Run specific tests here
         # Prefer using scripts, place them in the scripts folder and call them here
 
-      - name: Create coverage artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: ./coverage
+      # - name: Create coverage artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: coverage
+      #     path: ./coverage
 
-      - name: Upload coverage to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: ./coverage
-          target-folder: docs/coverage
-          branch: gh-pages
+      # - name: Upload coverage to GitHub Pages
+      #   uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: ./coverage
+      #     target-folder: docs/coverage
+      #     branch: gh-pages
